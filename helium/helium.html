@@ -1,0 +1,120 @@
+<!-- Helium In Node -->
+<script type="text/x-red" data-template-name="helium-in">
+
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+	<div class="form-row">
+        <label for="node-input-atom"><i class="fa fa-fighter-jet"></i> Atom</label>
+        <input type="text" id="node-input-atom" placeholder="Atom">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="helium-in">
+   <p>This node subscribes to an atom on the Helium network using the given token.  When the atom publishes a message it is decoded with message pack and assigned to <code>msg.payload</code>.  The MAC address of the device is assigned to <code>msg.helium_mac</code>.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('helium-in',{
+        category: 'input',
+        color: 'transparent',
+        defaults: {             
+            name: {value:""},   
+            atom: {type:'helium-atom', required:true}
+        },
+        inputs:0,               
+        outputs:1,              
+        icon: "helium.png",     
+        label: function() {   
+        	var atomConfig = RED.nodes.node(this.atom);  
+            return this.name || ((atomConfig) ? (atomConfig.name || atomConfig.mac) : "Helium In");
+        },
+        labelStyle: function() { 
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+
+
+<!-- Helium Out Node -->
+<script type="text/x-red" data-template-name="helium-out">
+
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-atom"><i class="fa fa-fighter-jet"></i> Atom</label>
+        <input type="text" id="node-input-atom" placeholder="Atom">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="helium-out">
+   <p>Encodes the value of <code>msg.payload</code> with message pack and delivers it to an atom on the Helium network using the given token.  The payload can be any javascript object, buffer, or string.</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('helium-out',{
+        category: 'output',
+        color: 'transparent',      
+        defaults: {             
+            name: {value:""},   
+            atom: {type:'helium-atom', required:true}
+        },
+        inputs:1,               
+        outputs:0,              
+        
+        icon: "helium.png",     
+        label: function() {
+        	var atomConfig = RED.nodes.node(this.atom);
+            return this.name || ((atomConfig) ? (atomConfig.name || atomConfig.mac) : "Helium Out");
+        },
+        labelStyle: function() { 
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
+
+
+<!-- Helium Atom Node -->
+
+
+<script type="text/x-red" data-template-name="helium-atom">
+
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="Atom Name">
+    </div>
+
+
+
+    <div class="form-row">
+        <label for="node-config-input-mac"><i class="fa fa-globe"></i> MAC</label>
+        <input type="text" id="node-config-input-mac">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-token"><i class="fa fa-lock"></i> Token</label>
+        <input type="text" id="node-config-input-token">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('helium-atom',{
+        category: 'config',
+        defaults: {
+            name: {value:""},
+            mac: {value:"", required:true}
+        },
+        credentials: {
+            token: {type:"text"},
+        },
+        label: function() {
+            if (this.name == "") { this.name = this.mac; }
+            return this.name;
+        }
+    });
+</script>
