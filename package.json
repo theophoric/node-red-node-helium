@@ -1,6 +1,6 @@
 {
   "name": "node-red-node-helium",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Helium network connectivity for Node Red.",
   "main": "index.js",
   "scripts": {

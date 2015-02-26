@@ -19,7 +19,6 @@ module.exports = function(RED) {
         }
     });
 
-
     function HeliumIn(config) {
         RED.nodes.createNode(this, config);
 
@@ -32,8 +31,6 @@ module.exports = function(RED) {
             this.client = new helium.Helium();
 
             var node = this;
-
-            console.log(node);
 
             this.client.open();
 
